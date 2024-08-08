@@ -9,9 +9,8 @@ type route struct {
 
 func ConfigureRoutes(e *echo.Echo) {
 	routes := route{}
-	group := e.Group("/index")
 
-	group.GET("/", routes.index)
+	e.GET("/", routes.index)
 }
 
 func (route *route) index(e echo.Context) error {

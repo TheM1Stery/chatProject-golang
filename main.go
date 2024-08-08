@@ -43,5 +43,7 @@ func main() {
 
 	e := echo.New()
 
+	configureRoutes(e)
+
 	e.Logger.Fatal(e.Start(config.port))
 }
