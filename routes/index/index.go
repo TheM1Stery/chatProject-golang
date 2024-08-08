@@ -1,6 +1,9 @@
 package index
 
 import (
+	"chatProject/routes/shared"
+	"net/http"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -13,6 +16,6 @@ func ConfigureRoutes(e *echo.Echo) {
 	e.GET("/", routes.index)
 }
 
-func (route *route) index(e echo.Context) error {
-	return e.HTML(200, "<h1>Salam!</h1>")
+func (route *route) index(c echo.Context) error {
+	return shared.Render(c, http.StatusOK, hello("Maksud"))
 }
