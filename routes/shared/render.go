@@ -1,6 +1,10 @@
 package shared
 
 import (
+	"net/http"
+
+	"chatProject/routes"
+
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
 )
@@ -14,4 +18,9 @@ func Render(ctx echo.Context, statusCode int, t templ.Component) error {
 	}
 
 	return ctx.HTML(statusCode, buf.String())
+}
+
+func Page(ctx echo.Context, pageContent templ.Component) error {
+	layout := routes.Layout(pageContent)
+	return Render(ctx, http.StatusOK, layout)
 }

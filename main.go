@@ -18,6 +18,7 @@ type Config struct {
 }
 
 func configureRoutes(e *echo.Echo) {
+	e.Static("/public", "public")
 	index.ConfigureRoutes(e)
 }
 
