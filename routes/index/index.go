@@ -2,6 +2,7 @@ package index
 
 import (
 	"chatProject/routes/shared"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -15,5 +16,5 @@ func ConfigureRoutes(e *echo.Echo) {
 }
 
 func (route *route) index(ctx echo.Context) error {
-	return shared.Page(ctx, hello("Maksud"))
+	return shared.Page(ctx, hello("Seymur"))
 }
