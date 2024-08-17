@@ -1,13 +1,11 @@
 run:
 	@templ generate
-	@bun build client/index.ts --outdir=public --splitting
-	@bun tailwind -i client/main.css -o public/main.css
+	@sh ./scripts/client-build.sh
 	@go run .
 
 
 run-browser:
 	@templ generate
-	@bun build client/index.ts --outdir=public --splitting
-	@bun tailwind -i client/main.css -o public/main.css
+	@sh ./scripts/client-build.sh
 	xdg-open http://localhost:9000
 	@go run .

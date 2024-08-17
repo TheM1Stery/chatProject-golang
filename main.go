@@ -13,6 +13,7 @@ import (
 
 	"chatProject/models"
 	"chatProject/routes/auth"
+	"chatProject/routes/chat"
 	"chatProject/routes/index"
 )
 
@@ -24,6 +25,10 @@ type Config struct {
 func configureRoutes(e *echo.Echo, db *pgxpool.Pool) {
 	e.Static("/public", "public")
 	index.ConfigureRoutes(e)
+	// this is temporary
+	broker := chat.NewChat()
+	go broker.Start()
+	chat.ConfigureRoutes(e, chat.NewState(broker))
 	auth.ConfigureRoutes(e, db)
 }
 

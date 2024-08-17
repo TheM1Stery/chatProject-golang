@@ -17,5 +17,5 @@ func ConfigureRoutes(e *echo.Echo) {
 }
 
 func (route *route) index(ctx echo.Context) error {
-	return shared.Page(ctx, hello("Seymur"))
+	return shared.Page(ctx, hello("Seymur"), nil)
 }
