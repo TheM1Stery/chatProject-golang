@@ -4,7 +4,6 @@ go 1.22.5
 
 require (
 	github.com/a-h/templ v0.2.747
-	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/gorilla/sessions v1.3.0
 	github.com/jackc/pgx/v5 v5.6.0
 	github.com/joho/godotenv v1.5.1

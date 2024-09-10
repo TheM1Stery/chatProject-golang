@@ -26,7 +26,7 @@ type User struct {
 	Username        string `form:"username" json:"username"`
 	Password        string `form:"password" json:"password"`
 	ConfirmPassword string `form:"confirm_password" json:"confirm_password"`
-	ID              string
+	ID              int32
 }
 
 func ConfigureRoutes(e *echo.Echo, db *pgxpool.Pool) {
@@ -57,6 +57,7 @@ func (route *route) login(ctx echo.Context) error {
 		}
 
 		user, err := getUser(route.db, form.Username)
+
 		if err != nil {
 			return err
 		}
@@ -68,6 +69,7 @@ func (route *route) login(ctx echo.Context) error {
 			}
 			fmt.Println("Logged in")
 		}
+
 		sess, err := session.Get("session", ctx)
 		if err != nil {
 			return err
@@ -146,6 +148,7 @@ func getUser(db *pgxpool.Pool, username string) (*User, error) {
 	rows, err := db.Query(context.Background(), "SELECT name, pass, id FROM test WHERE name = @name", pgx.NamedArgs{
 		"name": username,
 	})
+
 	if err != nil {
 		var pgErr *pgconn.PgError
 		if errors.As(err, &pgErr) {
@@ -164,7 +167,7 @@ func getUser(db *pgxpool.Pool, username string) (*User, error) {
 		}
 		user.Username = values[0].(string)
 		user.Password = values[1].(string)
-		user.ID = values[2].(string)
+		user.ID = values[2].(int32)
 	}
 
 	if len == 0 {
