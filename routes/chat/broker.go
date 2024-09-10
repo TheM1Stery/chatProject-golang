@@ -21,6 +21,9 @@ func (b *ChatBroker) Start() {
 	for {
 		select {
 		case <-b.stopCh:
+			for subCh := range subs {
+				close(subCh)
+			}
 			return
 		case msgCh := <-b.subCh:
 			subs[msgCh] = struct{}{}
@@ -54,5 +57,4 @@ func (b *ChatBroker) Publish(msg string) {
 }
 
 func (b *ChatBroker) Stop() {
-	close(b.stopCh)
 }
