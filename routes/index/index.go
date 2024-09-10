@@ -13,6 +13,7 @@ func ConfigureRoutes(e *echo.Echo) {
 	routes := route{}
 
 	e.GET("/", routes.index)
+
 }
 
 func (route *route) index(ctx echo.Context) error {
