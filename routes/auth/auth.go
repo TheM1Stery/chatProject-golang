@@ -68,7 +68,6 @@ func (route *route) login(ctx echo.Context) error {
 			}
 			fmt.Println("Logged in")
 		}
-		
 		sess, err := session.Get("session", ctx)
 		if err != nil {
 			return err
@@ -135,6 +134,14 @@ func (route *route) register(ctx echo.Context) error {
 	}
 }
 
+type UserFetchError struct {
+	username string
+}
+
+func (e *UserFetchError) Error() string {
+	return fmt.Sprintf("Couldn't find user by username %v", e.username)
+}
+
 func getUser(db *pgxpool.Pool, username string) (*User, error) {
 	rows, err := db.Query(context.Background(), "SELECT name, pass, id FROM test WHERE name = @name", pgx.NamedArgs{
 		"name": username,
@@ -147,8 +154,10 @@ func getUser(db *pgxpool.Pool, username string) (*User, error) {
 	}
 
 	user := new(User)
+	len := 0
 
 	for rows.Next() {
+		len++
 		values, err := rows.Values()
 		if err != nil {
 			return nil, err
@@ -156,6 +165,10 @@ func getUser(db *pgxpool.Pool, username string) (*User, error) {
 		user.Username = values[0].(string)
 		user.Password = values[1].(string)
 		user.ID = values[2].(string)
+	}
+
+	if len == 0 {
+		return nil, &UserFetchError{username}
 	}
 	return user, nil
 }
