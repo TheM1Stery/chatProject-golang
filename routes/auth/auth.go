@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"net/http"
 	"strings"
 
 	"github.com/gorilla/sessions"
@@ -33,11 +32,29 @@ func ConfigureRoutes(e *echo.Echo, db *pgxpool.Pool) {
 	routes := route{db: db}
 
 	e.GET("/login", routes.login)
-	e.GET("/register", routes.register)
+	e.GET("/register", routes.register, Auth)
 
 	e.POST("/login", routes.login)
 	e.POST("/register", routes.register)
 
+}
+
+func Auth(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(ctx echo.Context) error {
+		session, err := session.Get("session", ctx)
+
+		if err != nil {
+			return err
+		}
+
+		user_id, ok := session.Values["user_id"]
+		if !ok {
+			fmt.Println("Unauthorized")
+			return ctx.Redirect(301, "/login")
+		}
+		ctx.Set("user_id", user_id)
+		return next(ctx)
+	}
 }
 
 func (route *route) login(ctx echo.Context) error {
@@ -51,7 +68,6 @@ func (route *route) login(ctx echo.Context) error {
 			return nil
 		}
 		if form.Password == "" {
-
 			log.Println("Password is empty")
 			return nil
 		}
@@ -87,7 +103,7 @@ func (route *route) login(ctx echo.Context) error {
 			return err
 		}
 
-		return ctx.String(http.StatusOK, "Logged in")
+		return ctx.Redirect(301, "/")
 	} else {
 		return shared.Page(ctx, Login())
 	}
@@ -129,7 +145,7 @@ func (route *route) register(ctx echo.Context) error {
 			return err
 		}
 
-		return ctx.Redirect(http.StatusMovedPermanently, "/register")
+		return ctx.Redirect(301, "/")
 	} else {
 		ctx.Logger()
 		return shared.Page(ctx, Registration())
@@ -198,27 +214,3 @@ func createUser(db *pgxpool.Pool, username string, password string) error {
 	return nil
 
 }
-
-// func (route *route) readCookie(c echo.Context) error {
-// 	cookie, err := c.Cookie("username")
-// 	if err != nil {
-// 		return err
-// 	}
-// 	fmt.Println(cookie.Name)
-// 	fmt.Println(cookie.Value)
-// 	return c.String(http.StatusOK, "read a cookie")
-// }
-
-// func (route *route) dbErrorHandler(err error) error {
-// 	var pgErr *pgconn.PgError
-// 	if errors.As(err, &pgErr) {
-// 		fmt.Println(pgErr.Message)
-// 		fmt.Println(pgErr.Code)
-// 		log.Println("Username already exist")
-// 		return nil
-// 	}
-// }
-
-// func (route *route) loginRequired(ctx echo.Context) (logged bool, err error) {
-
-// }

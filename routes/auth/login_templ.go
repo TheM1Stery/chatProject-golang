@@ -26,7 +26,7 @@ func Login() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"card w-96 bg-white shadow-xl\"><div class=\"card-body\"><h2 class=\"card-title text-center\">Login</h2><form action=\"/login\" method=\"POST\"><div class=\"form-control\"><label class=\"label\"><span class=\"label-text\">Username</span></label> <input type=\"text\" placeholder=\"Username\" name=\"username\" class=\"input input-bordered\" required></div><div class=\"form-control\"><label class=\"label\"><span class=\"label-text\">Password</span></label> <input type=\"password\" placeholder=\"Password\" name=\"password\" class=\"input input-bordered\"></div><div class=\"form-control mt-6\"><button class=\"btn btn-primary\">Login</button></div></form></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"card w-96 bg-white shadow-xl\"><div class=\"card-body\"><h2 class=\"card-title text-center\">Login</h2><form action=\"/login\" method=\"POST\"><div class=\"form-control\"><label class=\"label\"><span class=\"label-text\">Username</span></label> <input type=\"text\" placeholder=\"Username\" name=\"username\" class=\"input input-bordered\" required></div><div class=\"form-control\"><label class=\"label\"><span class=\"label-text\">Password</span></label> <input type=\"password\" placeholder=\"Password\" name=\"password\" class=\"input input-bordered\"></div><div class=\"form-control mt-6\"><button class=\"btn btn-primary\">Login</button></div></form><a class=\"btn btn-error\" href=\"/\">Home</a></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

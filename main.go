@@ -43,22 +43,7 @@ func getConfig() (*Config, error) {
 	}, nil
 }
 
-// func seymurgay(next echo.HandlerFunc) echo.HandlerFunc {
-// 	return func(c echo.Context) error {
-// 		if err := next(c); err != nil {
-// 			return err
-// 		}
-// 		session, err := session.Get("session", c)
 
-// 		if err != nil {
-// 			return err
-// 		}
-// 		fmt.Println(session.Values["user_id"])
-// 		fmt.Println(c.Request().URL)
-// 		return nil
-// 	}
-
-// }
 
 func main() {
 	godotenv.Load()
