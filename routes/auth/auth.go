@@ -34,7 +34,7 @@ func ConfigureRoutes(e *echo.Echo, db *pgxpool.Pool) {
 	routes := route{db: db}
 
 	e.GET("/login", routes.login)
-	e.GET("/register", Auth(routes.register))
+	e.GET("/register", routes.register)
 	e.GET("/test2", Auth(routes.test))
 
 	e.POST("/login", routes.login)
@@ -111,7 +111,7 @@ func (route *route) login(ctx echo.Context) error {
 			return err
 		}
 
-		return ctx.Redirect(http.StatusTemporaryRedirect, "/")
+		return ctx.Redirect(303, "/")
 	} else {
 		return shared.Page(ctx, Login())
 	}
@@ -153,7 +153,7 @@ func (route *route) register(ctx echo.Context) error {
 			return err
 		}
 
-		return ctx.Redirect(http.StatusTemporaryRedirect, "/")
+		return ctx.Redirect(303, "/")
 	} else {
 		ctx.Logger()
 		return shared.Page(ctx, Registration())
