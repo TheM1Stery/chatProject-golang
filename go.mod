@@ -10,6 +10,7 @@ require (
 	github.com/labstack/echo-contrib v0.17.1
 	github.com/labstack/echo/v4 v4.12.0
 	golang.org/x/crypto v0.22.0
+	golang.org/x/net v0.24.0
 )
 
 require (

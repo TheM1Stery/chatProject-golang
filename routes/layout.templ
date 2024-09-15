@@ -19,8 +19,8 @@ templ footer() {
 </footer>
 }
 
-templ Layout(content templ.Component) {
-<!DOCTYPE html />
+templ Layout(content templ.Component, scripts templ.Component) {
+<!DOCTYPE html>
 <html>
 @head()
 
@@ -28,6 +28,9 @@ templ Layout(content templ.Component) {
     @content
     @footer() 
 </body>
+if scripts != nil {
+@scripts
+}
 
 </html>
 }
