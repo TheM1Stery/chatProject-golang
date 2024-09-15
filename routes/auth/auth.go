@@ -1,12 +1,14 @@
 package auth
 
 import (
-	"chatProject/routes/shared"
 	"context"
 	"errors"
 	"fmt"
 	"log"
+	"net/http"
 	"strings"
+
+	"chatProject/routes/shared"
 
 	"github.com/gorilla/sessions"
 	"github.com/jackc/pgx/v5"
@@ -32,11 +34,17 @@ func ConfigureRoutes(e *echo.Echo, db *pgxpool.Pool) {
 	routes := route{db: db}
 
 	e.GET("/login", routes.login)
-	e.GET("/register", routes.register, Auth)
+	e.GET("/register", Auth(routes.register))
+	e.GET("/test2", Auth(routes.test))
 
 	e.POST("/login", routes.login)
 	e.POST("/register", routes.register)
 
+}
+
+func (route *route) test(ctx echo.Context) error {
+	log.Println("I was here bro")
+	return ctx.String(200, "Salam!")
 }
 
 func Auth(next echo.HandlerFunc) echo.HandlerFunc {
@@ -50,7 +58,7 @@ func Auth(next echo.HandlerFunc) echo.HandlerFunc {
 		user_id, ok := session.Values["user_id"]
 		if !ok {
 			fmt.Println("Unauthorized")
-			return ctx.Redirect(301, "/login")
+			return ctx.Redirect(http.StatusTemporaryRedirect, "/login")
 		}
 		ctx.Set("user_id", user_id)
 		return next(ctx)
@@ -103,7 +111,7 @@ func (route *route) login(ctx echo.Context) error {
 			return err
 		}
 
-		return ctx.Redirect(301, "/")
+		return ctx.Redirect(http.StatusTemporaryRedirect, "/")
 	} else {
 		return shared.Page(ctx, Login())
 	}
@@ -145,7 +153,7 @@ func (route *route) register(ctx echo.Context) error {
 			return err
 		}
 
-		return ctx.Redirect(301, "/")
+		return ctx.Redirect(http.StatusTemporaryRedirect, "/")
 	} else {
 		ctx.Logger()
 		return shared.Page(ctx, Registration())
