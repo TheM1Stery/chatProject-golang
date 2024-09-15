@@ -20,13 +20,13 @@ templ footer() {
 }
 
 templ Layout(content templ.Component) {
-<!DOCTYPE html />
-<html>
+<!DOCTYPE html>
+<html data-theme="cupcake">
 @head()
 
 <body class="grid grid-rows-layout h-screen">
     @content
-    @footer() 
+    @footer()
 </body>
 
 </html>

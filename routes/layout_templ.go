@@ -78,7 +78,7 @@ func Layout(content templ.Component) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html /><html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html data-theme=\"cupcake\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
